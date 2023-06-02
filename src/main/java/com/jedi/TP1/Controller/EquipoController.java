@@ -21,6 +21,7 @@ public class EquipoController {
 
     public void agregarEquipo(String nombre, LocalDate fechaCreacion){
         Equipo equipo= new Equipo(nombre,fechaCreacion);
+        equipoService.agregarEquipo(equipo);
     }
 
     public void listarEquipo(){

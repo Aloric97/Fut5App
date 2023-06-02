@@ -21,6 +21,7 @@ public class MenuOptions {
     public void showMenu(){
         Integer opcion;
         boolean validarEntrada=false;
+        System.out.println(" ");
         System.out.println("Bienvenidos al menu de opciones, por favor elija una opcion valida:\n");
         do{
             System.out.println("======================================");
@@ -42,6 +43,7 @@ public class MenuOptions {
                     break;
                 case 9:
                     System.out.println("Saliendo del programa...");
+                    scanner.close();
                     break;
                 default:
                     System.out.println("Ha ingresado una opcion invalida");
@@ -64,9 +66,9 @@ public class MenuOptions {
         }
     }
 
+
     private void crearEquipo(){
         int opcion;
-
         System.out.println("Ha elegido la opcion de crear equipo\n");
         System.out.println("Por Favor, ingrese el nombre del equipo");
         scanner.nextLine();
@@ -77,15 +79,25 @@ public class MenuOptions {
         equipoController.agregarEquipo(nombreEquipo,fechaHoy);
 
         System.out.println("Equipo creado con exito");
-        equipoController.listarEquipo();
-        System.out.println("Desea realizar otra cosa?. 1-SI 2-NO \n");
+        System.out.println("\nDesea crear otro equipo? 1-SI 2-NO ");
+
         opcion=ValidarOpcionEntero();
-        elegirOpcion(opcion);
+
+        switch (opcion){
+            case 1:
+                crearEquipo();
+                break;
+            case 2:
+                System.out.println("volviendo al menu de inicio...\n");
+                showMenu();
+        }
+
+
     }
 
 
     private Integer ValidarOpcionEntero(){
-        Integer opcion;
+        int opcion;
 
         do {
             System.out.print("opcion:");
@@ -102,8 +114,13 @@ public class MenuOptions {
     return opcion;
     }
 
-    private void listarEquipos(){
+    private void listarEquipos() {
         System.out.println("los equipos creados son:");
+        System.out.println("=========================");
         equipoController.listarEquipo();
+        System.out.println("=========================");
+        System.out.println("Presione Enter para continuar...");
+        scanner.nextLine();
+        scanner.nextLine();
     }
 }
