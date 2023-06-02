@@ -1,11 +1,12 @@
 package com.jedi.TP1.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Equipo {
 
-    private Long id_equipo;
+    private static Long id_equipo;
     private String nombre;
 
     private LocalDate fechaCreacion;
@@ -15,11 +16,16 @@ public class Equipo {
     private Entrenador entrenador;
 
 
-    public Equipo(Long id_equipo, String nombre, LocalDate fechaCreacion, List<Jugador> jugadores, Entrenador entrenador) {
-        this.id_equipo = id_equipo;
+    public Equipo(String nombre, LocalDate fechaCreacion) {
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
-        this.jugadores = jugadores;
+    }
+
+    public Equipo(String nombre, LocalDate fechaCreacion, List<Jugador> jugadores, Entrenador entrenador) {
+        id_equipo++;
+        this.nombre = nombre;
+        this.fechaCreacion = fechaCreacion;
+        this.jugadores = new ArrayList<>();
         this.entrenador = entrenador;
     }
 
@@ -27,9 +33,6 @@ public class Equipo {
         return id_equipo;
     }
 
-    public void setId_equipo(Long id_equipo) {
-        this.id_equipo = id_equipo;
-    }
 
     public String getNombre() {
         return nombre;

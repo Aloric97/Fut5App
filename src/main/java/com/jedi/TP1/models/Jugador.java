@@ -4,7 +4,7 @@ import com.jedi.TP1.enums.Posiciones;
 
 public class Jugador extends Persona {
 
-    private Long idJugador;
+    private static Long idJugador;
 
     private Double altura;
 
@@ -19,7 +19,7 @@ public class Jugador extends Persona {
 
     public Jugador(String nombre, String apellido, Long idJugador, Double altura, Posiciones posiciones, Integer cantidadGoles, Boolean esCapitan, Integer numeroCamiseta, Equipo equipo) {
         super(nombre,apellido);
-        this.idJugador = idJugador;
+        idJugador ++;
         this.altura = altura;
         this.posiciones = posiciones;
         this.cantidadGoles = cantidadGoles;
