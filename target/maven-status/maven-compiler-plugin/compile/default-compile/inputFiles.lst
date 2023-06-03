@@ -1,9 +1,15 @@
+/home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/Services/JugadorService.java
 /home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/menu/MenuOptions.java
 /home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/models/Jugador.java
+/home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/Services/EntrenadorService.java
 /home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/enums/Posiciones.java
 /home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/models/Equipo.java
 /home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/models/Persona.java
 /home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/Tp1Application.java
+/home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/Services/Imp/EntrenadorServiceImp.java
 /home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/models/Entrenador.java
-/home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/Services/EquipoService.java
 /home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/Controller/EquipoController.java
+/home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/Controller/JugadorController.java
+/home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/Services/Imp/EquipoServiceImp.java
+/home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/Services/Imp/JugadorServiceImp.java
+/home/leandrot/IdeaProjects/TP1/Fut5App/src/main/java/com/jedi/TP1/Services/EquipoService.java

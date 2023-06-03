@@ -1,2 +1,8 @@
+com/jedi/TP1/Services/Imp/EquipoServiceImp.class
 com/jedi/TP1/Services/EquipoService.class
+com/jedi/TP1/Services/Imp/JugadorServiceImp.class
+com/jedi/TP1/Controller/JugadorController.class
 com/jedi/TP1/Controller/EquipoController.class
+com/jedi/TP1/Services/Imp/EntrenadorServiceImp.class
+com/jedi/TP1/Services/EntrenadorService.class
+com/jedi/TP1/Services/JugadorService.class
