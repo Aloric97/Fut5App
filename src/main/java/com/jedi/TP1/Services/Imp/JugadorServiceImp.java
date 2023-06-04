@@ -21,4 +21,9 @@ public class JugadorServiceImp implements JugadorService {
 
         return listaJugador.stream().filter(jugador -> jugador.getNombre().equalsIgnoreCase(nombre)).findFirst();
     }
+
+    @Override
+    public void agregarJugador(Jugador jugador) {
+        listaJugador.add(jugador);
+    }
 }

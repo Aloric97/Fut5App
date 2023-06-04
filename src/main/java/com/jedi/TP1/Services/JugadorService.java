@@ -8,4 +8,6 @@ public interface JugadorService {
 
 
     Optional<Jugador> buscarNombreJugador(String nombre);
+
+    void agregarJugador (Jugador jugador);
 }
