@@ -1,14 +1,11 @@
 package com.jedi.TP1.menu;
 
 
-import com.jedi.TP1.Controller.EquipoController;
-import com.jedi.TP1.Controller.JugadorController;
-import com.jedi.TP1.models.Jugador;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.util.Optional;
+
 import java.util.Scanner;
 
 
@@ -22,12 +19,18 @@ public class MenuPrincipal{
 
 
 
+    //inyecciones de dependecias
 
     @Autowired
     MenuEquipo menuEquipo;
 
     @Autowired
     MenuEntrenador menuEntrenador;
+
+    @Autowired
+    MenuJugador menuJugador;
+
+
 
     Scanner scanner= new Scanner(System.in);
 
@@ -41,25 +44,20 @@ public class MenuPrincipal{
             System.out.println("2-Gestion de Jugador");
             System.out.println("3-Gestion de Entrenador");
             System.out.println("9-Salir");
-            System.out.println("===================================2===");
+            System.out.println("======================================");
             opcion=generalidades.validarOpcionEntero();
             switch (opcion) {
-                case 1 -> {
-                    menuEquipo.showMenuEquipo();
-                    System.exit(0);
-                }
-                case 2 ->{
-                    menuEntrenador.showMenuEntrenador();
-                    System.exit(0);
-                }
+                case 1 -> menuEquipo.showMenuEquipo();
+                case 2 -> menuJugador.showMenuJugador();
+                case 3 -> menuEntrenador.showMenuEntrenador();
                 case 9 -> {
                     System.out.println("Saliendo del programa...");
+                    scanner.close();
                     System.exit(0);
                 }
                 default -> System.out.println("Ha ingresado una opcion invalida");
             }
 
         } while (opcion!=9);
-        scanner.close();
     }
 }

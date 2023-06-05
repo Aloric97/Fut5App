@@ -7,7 +7,11 @@ import java.util.Optional;
 public interface JugadorService {
 
 
-    Optional<Jugador> buscarNombreJugador(String nombre);
+    Optional<Jugador> buscarNombreApellidoJugador(String nombre, String apellido);
 
     void agregarJugador (Jugador jugador);
+
+    void listarJugador();
+
+
 }

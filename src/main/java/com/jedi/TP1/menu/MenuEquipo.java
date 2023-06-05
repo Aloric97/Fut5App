@@ -65,7 +65,8 @@ public class MenuEquipo implements MenuOptionsHandler{
     @Override
     public void crear() {
         int opcion;
-        System.out.println("Ha elegido la opcion de crear equipo\n");
+
+        System.out.println("***Ha elegido la opcion de crear equipo***\n");
         System.out.println("Por Favor, ingrese el nombre del equipo");
         System.out.print("nombre:");
         String nombreEquipo= scanner.nextLine();
@@ -98,6 +99,8 @@ public class MenuEquipo implements MenuOptionsHandler{
             opcion=generalidades.validarOpcionEntero();
         }
 
+
+
         System.out.println("\nDesea crear otro equipo? 1-SI 2-NO ");
         opcion=generalidades.validarOpcionEntero();
         switch (opcion) {
@@ -123,19 +126,20 @@ public class MenuEquipo implements MenuOptionsHandler{
 
     @Override
     public void listar() {
-        System.out.println("los equipos creados son:");
+        System.out.println("Ha seleccionado la opcion de listar equipos");
+
+
         System.out.println("=========================");
         equipoController.listarEquipo();
         System.out.println("=========================");
         System.out.println("Presione Enter para continuar...");
         scanner.nextLine();
+        scanner.nextLine();
+
         showMenuEquipo();
     }
 
-    @Override
-    public void buscar() {
 
-    }
 
     @Override
     public void volverMenuPrincipal() {

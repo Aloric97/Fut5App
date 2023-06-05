@@ -6,13 +6,7 @@ public interface MenuOptionsHandler {
     void modificar();
     void eliminar();
     void listar();
-    void buscar();
-
     void volverMenuPrincipal();
-
     void salir();
-
-
-
 
 }

@@ -40,19 +40,33 @@ public class Generalidades {
         return opcion;
     }
 
+    public String controlVacio() {
+        String entrada;
+        do {
+            System.out.print("valor: ");
+            entrada = scanner.nextLine();
+            scanner.nextLine();
+            if (entrada.isEmpty()) {
+                System.out.println("El valor no puede estar vacío. Ingrese nuevamente.");
+            }
+        } while (entrada.isEmpty());
+        return entrada;
+    }
+
 
     public void buscarJugador(){
         scanner.nextLine();
-        System.out.print("Jugador:");
+        System.out.print("nombre:");
         String nombreJugador=scanner.nextLine();
-        Optional<Jugador> optionalJugador= jugadorController.buscarJugadorNombre(nombreJugador);
+        System.out.println("apellido");
+        String apellidoJugador=scanner.nextLine();
+        Optional<Jugador> optionalJugador= jugadorController.buscarNombreApellidoJugador(nombreJugador,apellidoJugador);
 
         if (optionalJugador.isPresent()){
             Jugador jugador= optionalJugador.get();
         } else {
             System.out.println("jugador no encontrado");
         }
-
     }
 
     public void buscarEntrenador(){

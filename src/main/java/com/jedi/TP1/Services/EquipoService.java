@@ -14,4 +14,6 @@ public interface EquipoService {
 
     void listarEquipos();
 
+
+
 }
