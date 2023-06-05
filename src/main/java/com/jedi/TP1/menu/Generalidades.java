@@ -1,6 +1,6 @@
 package com.jedi.TP1.menu;
 
-import com.jedi.TP1.Controller.JugadorController;
+import com.jedi.TP1.Controllers.JugadorController;
 import com.jedi.TP1.models.Jugador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -45,7 +45,6 @@ public class Generalidades {
         do {
             System.out.print("valor: ");
             entrada = scanner.nextLine();
-            scanner.nextLine();
             if (entrada.isEmpty()) {
                 System.out.println("El valor no puede estar vacío. Ingrese nuevamente.");
             }

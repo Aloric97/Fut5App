@@ -1,11 +1,13 @@
 package com.jedi.TP1.menu;
 
-import com.jedi.TP1.Controller.EquipoController;
+import com.jedi.TP1.Controllers.EquipoController;
+import com.jedi.TP1.models.Equipo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.Scanner;
 
 
@@ -20,6 +22,9 @@ public class MenuEquipo implements MenuOptionsHandler{
 
     @Autowired
     EquipoController equipoController;
+
+    @Autowired
+    MenuJugador menuJugador;
 
     @Autowired
     @Lazy
@@ -37,7 +42,7 @@ public class MenuEquipo implements MenuOptionsHandler{
             System.out.println("1-Crear Equipo");
             System.out.println("2-Modificar Equipo");
             System.out.println("3-Eliminar Equipo");
-            System.out.println("4-Visualizar cantidad de equipos");
+            System.out.println("4-Visualizar cantidad de equipos totales");
             System.out.println("5-Buscar un equipo");
             System.out.println("8-Volver al menu principal");
             System.out.println("9-Salir");
@@ -47,6 +52,7 @@ public class MenuEquipo implements MenuOptionsHandler{
                 case 1 -> crear();
                 case 4 -> listar();
                 case 8 -> menuPrincipal.showMenuPrincipal();
+                case 5 -> buscarEquipo();
                 case 9 -> {
                     System.out.println("Saliendo del programa...");
                     System.exit(0);
@@ -78,7 +84,7 @@ public class MenuEquipo implements MenuOptionsHandler{
         opcion=generalidades.validarOpcionEntero();
         while (opcion!=2){
             if (opcion == 1) {
-                generalidades.buscarJugador();
+                buscarJugador();
             }else{
                 System.out.println("Ha ingresado una opcion invalida");
             }
@@ -126,9 +132,8 @@ public class MenuEquipo implements MenuOptionsHandler{
 
     @Override
     public void listar() {
-        System.out.println("Ha seleccionado la opcion de listar equipos");
-
-
+        System.out.println("Ha seleccionado la opcion listar equipos");
+        System.out.println("los equipos creados son:");
         System.out.println("=========================");
         equipoController.listarEquipo();
         System.out.println("=========================");
@@ -150,4 +155,67 @@ public class MenuEquipo implements MenuOptionsHandler{
     public void salir() {
 
     }
+
+    private void buscarEquipo(){
+
+        System.out.println("Ha elegido la opcion de buscar un equipo");
+        System.out.println("Ingrese el nombre del equipo a buscar:");
+        String nombreEquipo= generalidades.controlVacio();
+        Optional<Equipo> optionalEquipo=equipoController.buscarNombreEquipo(nombreEquipo);
+        if (optionalEquipo.isPresent()){
+            int opcion;
+
+            do {
+                System.out.println("Que quiere saber sobre este equipo?");
+                System.out.println("1-nombre, nombre de entrenador y nombre del capitán del equipo");
+                System.out.println("2-su nombre, nombre del entrenador y la lista de los jugadores del equipo");
+                System.out.println("3-salir");
+                opcion=generalidades.validarOpcionEntero();
+                switch (opcion){
+                    case 1 -> listarEquipoCapitan(optionalEquipo.get());
+                    case 2 -> System.out.println(optionalEquipo.get());//listarEquipoJugadores();
+                    case 3 -> showMenuEquipo();
+                    default -> System.out.println("Ha elegido una opcion no valida");
+                }
+                opcion=generalidades.validarOpcionEntero();
+            } while (opcion !=3);
+
+
+        } else {
+            System.out.println("equipo no encontrado");
+
+        }
+    }
+
+
+    //private List<Equipo> listarEquipoJugadores(){}
+
+
+    private void buscarJugador(){
+        int opcion;
+        do {
+            System.out.println("Ha seleccionado la opcion agregar jugador");
+            System.out.println("1-Crear nuevo jugador 2-Seleccionar uno ya existente 3-salir");
+
+            opcion=generalidades.validarOpcionEntero();
+            switch (opcion){
+                case 1 -> System.out.println("proximamente");
+                case 2 -> System.out.println("proximament2");
+                case 3 -> showMenuEquipo();
+                default -> System.out.println("Ha elegido una opcion no valida");
+            }
+        } while (opcion !=3);
+    }
+
+    private void listarEquipoCapitan(Equipo equipo){
+        System.out.println("Ha seleccionado la primer opcion");
+        System.out.println("El equipo es: ");
+        System.out.println("=========================");
+        equipoController.listarEquipoCapitan(equipo);
+        System.out.println("=========================");
+        System.out.println("Presione Enter para continuar...");
+        scanner.nextLine();
+        scanner.nextLine();
+    }
+
 }

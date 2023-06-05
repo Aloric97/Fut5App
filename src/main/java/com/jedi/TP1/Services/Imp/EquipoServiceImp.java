@@ -3,15 +3,17 @@ package com.jedi.TP1.Services.Imp;
 
 import com.jedi.TP1.Services.EquipoService;
 import com.jedi.TP1.models.Equipo;
+import com.jedi.TP1.models.Jugador;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EquipoServiceImp  implements EquipoService {
 
-    private List<Equipo> listaEquipo= new ArrayList<>();
+    private final List<Equipo> listaEquipo= new ArrayList<>();
 
     @Override
     public void agregarEquipo(Equipo equipo) {
@@ -40,6 +42,37 @@ public class EquipoServiceImp  implements EquipoService {
                 cantidad++;
             }
         }
+
+    }
+
+    @Override
+    public Optional<Equipo> buscarEquipo(String nombre) {
+        return listaEquipo.stream()
+                .filter(equipo -> equipo.getNombre().equalsIgnoreCase(nombre))
+                .findFirst();
+    }
+
+    @Override
+    public void listarEquipoCapitan(Equipo equipo) {
+        System.out.println("nombre del equipo:"+ equipo.getNombre());
+        if (equipo.getEntrenador() != null) {
+            System.out.println("nombre del entrenador:"+ equipo.getEntrenador());
+        } else {
+            System.out.println("No tiene entrenador");
+        }
+        if (equipo.getJugadores()==null){
+            System.out.println("no tiene jugadores");
+        }else{
+            Optional<Jugador> findJugadorCapitan= equipo.getJugadores()
+                    .stream().filter(Jugador::getEsCapitan)
+                    .findFirst();
+            if (findJugadorCapitan.isPresent()){
+                System.out.println("nombre del capitan:"+ findJugadorCapitan.get().getNombre());
+            } else {
+                System.out.println("No tiene capitan");
+            }
+        }
+
 
     }
 }

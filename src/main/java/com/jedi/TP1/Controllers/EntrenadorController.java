@@ -1,4 +1,4 @@
-package com.jedi.TP1.Controller;
+package com.jedi.TP1.Controllers;
 
 
 import com.jedi.TP1.Services.Imp.EntrenadorServiceImp;
@@ -20,6 +20,6 @@ public class EntrenadorController {
     }
 
     public void listarEntrenadores(){
-        entrenadorServiceImp.listarEntrenadores();;
+        entrenadorServiceImp.listarEntrenadores();
     }
 }

@@ -1,4 +1,4 @@
-package com.jedi.TP1.Controller;
+package com.jedi.TP1.Controllers;
 
 
 import com.jedi.TP1.Services.Imp.JugadorServiceImp;

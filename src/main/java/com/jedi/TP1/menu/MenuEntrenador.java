@@ -1,12 +1,10 @@
 package com.jedi.TP1.menu;
 
 
-import com.jedi.TP1.Controller.EntrenadorController;
-import com.jedi.TP1.enums.Posiciones;
+import com.jedi.TP1.Controllers.EntrenadorController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
 @Component

@@ -1,6 +1,6 @@
 package com.jedi.TP1.menu;
 
-import com.jedi.TP1.Controller.JugadorController;
+import com.jedi.TP1.Controllers.JugadorController;
 import com.jedi.TP1.enums.Posiciones;
 import com.jedi.TP1.models.Jugador;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,10 @@ public class MenuJugador implements MenuOptionsHandler{
     @Autowired
     Generalidades generalidades;
 
-    @Autowired
-    JugadorController jugadorController;
-
     Scanner scanner= new Scanner(System.in);
 
+    @Autowired
+    JugadorController jugadorController;
 
 
     public void showMenuJugador(){
@@ -57,7 +56,7 @@ public class MenuJugador implements MenuOptionsHandler{
     @Override
     public void crear() {
         int opcion;
-        System.out.println("Ha elegido la opcion de crear jugador\n");
+        System.out.println("Ha seleccionado la opcion de crear un jugador");
         System.out.println("Por Favor, ingrese el nombre del jugador");
 
         String nombreJugador= generalidades.controlVacio();
@@ -174,21 +173,7 @@ public class MenuJugador implements MenuOptionsHandler{
 
     }
 
-    public Jugador buscarJugador() {
-        System.out.println("Ha elegido la opcion de modificar un jugador");
-        System.out.println("Ingrese el nombre del jugador a buscar:");
-        String nombreJugador= generalidades.controlVacio();
-        System.out.println("ingrese el apellido del jugador a buscar:");
-        String apellidoJugador= generalidades.controlVacio();
-        Optional<Jugador> optionalJugador=jugadorController.buscarNombreApellidoJugador(nombreJugador,apellidoJugador);
-        if (optionalJugador.isPresent()){
-            return optionalJugador.get();
-        } else {
-            System.out.println("jugador no encontrado");
-            return null;
-        }
 
-    }
 
     @Override
     public void volverMenuPrincipal() {
@@ -197,6 +182,22 @@ public class MenuJugador implements MenuOptionsHandler{
 
     @Override
     public void salir() {
+
+    }
+
+    private Jugador buscarJugador() {
+        System.out.println("Ha elegido la opcion de buscar un jugador");
+        System.out.println("Ingrese el nombre del jugador a buscar:");
+        String nombreJugador= generalidades.controlVacio();
+        System.out.println("ingrese el apellido del jugador a buscar:");
+        String apellidoJugador= generalidades.controlVacio();
+        Optional<Jugador> optionalJugador=jugadorController.buscarNombreApellidoJugador(nombreJugador,apellidoJugador);
+        if (optionalJugador.isPresent()){
+            return optionalJugador.get();
+        }
+
+        System.out.println("jugador no encontrado");
+        return null;
 
     }
 
@@ -230,4 +231,7 @@ public class MenuJugador implements MenuOptionsHandler{
 
         return null;
     }
+
+
+
 }
