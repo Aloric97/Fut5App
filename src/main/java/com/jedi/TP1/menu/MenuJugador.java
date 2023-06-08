@@ -1,9 +1,12 @@
 package com.jedi.TP1.menu;
 
+import com.jedi.TP1.Controllers.EquipoController;
 import com.jedi.TP1.Controllers.JugadorController;
 import com.jedi.TP1.enums.Posiciones;
+import com.jedi.TP1.models.Equipo;
 import com.jedi.TP1.models.Jugador;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -13,13 +16,18 @@ import java.util.Scanner;
 @Component
 public class MenuJugador implements MenuOptionsHandler{
 
-    @Autowired
-    Generalidades generalidades;
 
     Scanner scanner= new Scanner(System.in);
 
     @Autowired
     JugadorController jugadorController;
+
+    @Autowired
+    EquipoController equipoController;
+
+    @Autowired
+    @Lazy
+    MenuPrincipal menuPrincipal;
 
 
     public void showMenuJugador(){
@@ -36,14 +44,14 @@ public class MenuJugador implements MenuOptionsHandler{
             System.out.println("8-Volver al menu principal");
             System.out.println("9-Salir");
             System.out.println("======================================");
-            opcion = generalidades.validarOpcionEntero();
+            opcion = Validaciones.validarOpcionEntero(scanner,"Opcion:");
             switch (opcion) {
                 case 1 -> crear();
                 case 2 -> modificar();
                 case 3 -> eliminar();
                 case 4 -> listar();
                 case 5 -> buscarJugador();
-                case 8 -> System.out.println("implementacion a futuro");
+                case 8 -> volverMenuPrincipal();
                 case 9 -> {
                     System.out.println("Saliendo del programa...");
                     System.exit(0);
@@ -59,17 +67,17 @@ public class MenuJugador implements MenuOptionsHandler{
         System.out.println("Ha seleccionado la opcion de crear un jugador");
         System.out.println("Por Favor, ingrese el nombre del jugador");
 
-        String nombreJugador= generalidades.controlVacio();
+        String nombreJugador= Validaciones.obtenerStringNoNulo(scanner, "Nombre del jugador:");
 
         System.out.println("Por Favor, ingrese el apellido del jugador");
-        String apellidoJugador= generalidades.controlVacio();
+        String apellidoJugador= Validaciones.obtenerStringNoNulo(scanner,"Apellido del jugador:");
 
         System.out.println("Elija la altura del jugador (acordarse que es decimal,por lo tanto termina con un .valor ; por ejemplo 0.12,1.0,):");
         System.out.print("altura:");
         Double alturaJugador= scanner.nextDouble();
         Posiciones posicion= asignarPosicion();
         System.out.println("ingrese la cantidad de goles que tiene:");
-        int cantidadGoles = generalidades.validarOpcionEntero();
+        int cantidadGoles = Validaciones.validarOpcionEntero(scanner,"Cantidad de goles:");
         System.out.println("es capitan? true-false");
         System.out.print("opcion:");
         boolean esCapitan= scanner.nextBoolean();
@@ -78,14 +86,41 @@ public class MenuJugador implements MenuOptionsHandler{
         System.out.print("opcion:");
         int numeroCamiseta= scanner.nextInt();
 
-        jugadorController.agregarJugador(nombreJugador,apellidoJugador,alturaJugador,posicion,cantidadGoles,esCapitan,numeroCamiseta);
+        Jugador nuevoJugador=jugadorController.agregarJugador(nombreJugador,apellidoJugador,alturaJugador,posicion,cantidadGoles,esCapitan,numeroCamiseta);
         System.out.println("Quiere agregarlo a un equipo? 1-SI 2-NO");
-        opcion=generalidades.validarOpcionEntero();
+        opcion=Validaciones.validarOpcionEntero(scanner, "Opcion:");
         if (opcion == 1) {
-            asignarJugador();
+            asignarJugador(nuevoJugador);
         }
 
         System.out.println("jugador creado con exito");
+
+    }
+
+    public void crear(Equipo equipo) {
+
+        System.out.println("Por Favor, ingrese el nombre del jugador");
+
+        String nombreJugador= Validaciones.obtenerStringNoNulo(scanner,"Nombre del jugador:");
+
+        System.out.println("Por Favor, ingrese el apellido del jugador");
+        String apellidoJugador= Validaciones.obtenerStringNoNulo(scanner,"Apellido del jugador:");
+
+        System.out.println("Elija la altura del jugador (acordarse que es decimal,por lo tanto termina con un .valor ; por ejemplo 0.12,1.0,):");
+        System.out.print("altura:");
+        Double alturaJugador= scanner.nextDouble();
+        Posiciones posicion= asignarPosicion();
+        System.out.println("ingrese la cantidad de goles que tiene:");
+        int cantidadGoles = Validaciones.validarOpcionEntero(scanner,"Cantidad de goles:");
+        System.out.println("es capitan? true-false");
+        System.out.print("opcion:");
+        boolean esCapitan= scanner.nextBoolean();
+
+        System.out.println("ingrese el numero de la camiseta:");
+        int numeroCamiseta= Validaciones.validarOpcionEntero(scanner,"Numero de camiseta:");
+
+        Jugador nuevoJugador=jugadorController.agregarJugador(nombreJugador,apellidoJugador,alturaJugador,posicion,cantidadGoles,esCapitan,numeroCamiseta);
+        equipo.getJugadores().add(nuevoJugador);
 
     }
 
@@ -98,18 +133,16 @@ public class MenuJugador implements MenuOptionsHandler{
             do {
                 System.out.println("Que atributo deseas modificar?");
                 System.out.println("1-nombre 2-apellido 3-altura 4-posicion 5-cantidad de goles 6-capitan 7- numero de camiseta");
-                opcion=generalidades.validarOpcionEntero();
+                opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
                 switch (opcion){
                     case 1-> {
                         System.out.println("ingrese un nuevo nombre:");
-                        System.out.print("nombre:");
-                        String nuevoNombre=generalidades.controlVacio();
+                        String nuevoNombre=Validaciones.obtenerStringNoNulo(scanner,"Nombre nuevo:");
                         findJugador.setNombre(nuevoNombre);
                     }
                     case 2-> {
                         System.out.println("ingrese un nuevo apellido:");
-                        System.out.print("apellido:");
-                        String nuevoApellido=generalidades.controlVacio();
+                        String nuevoApellido=Validaciones.obtenerStringNoNulo(scanner,"Apellido nuevo:");
                         findJugador.setApellido(nuevoApellido);
                     }
                     case 3->{
@@ -126,8 +159,7 @@ public class MenuJugador implements MenuOptionsHandler{
                     }
                     case 5->{
                         System.out.println("ingrese una nueva cantidad de goles:");
-                        System.out.print("goles:");
-                        int nuevoGoles= scanner.nextInt();
+                        int nuevoGoles= Validaciones.validarOpcionEntero(scanner, "goles:");
                         findJugador.setCantidadGoles(nuevoGoles);
                     }
                     case 6 ->{
@@ -138,8 +170,7 @@ public class MenuJugador implements MenuOptionsHandler{
                     }
                     case 7 ->{
                         System.out.println("ingrese un nuevo numero de camiseta?");
-                        System.out.print("numero de camiseta:");
-                        int nuevaCamiseta=scanner.nextInt();
+                        int nuevaCamiseta=Validaciones.validarOpcionEntero(scanner,"Nuevo numero de camiseta:");
                         findJugador.setNumeroCamiseta(nuevaCamiseta);
                     }
                     default -> System.out.println("ingreso una opcion invalidad");
@@ -177,20 +208,21 @@ public class MenuJugador implements MenuOptionsHandler{
 
     @Override
     public void volverMenuPrincipal() {
-
+        menuPrincipal.showMenuPrincipal();
     }
 
     @Override
     public void salir() {
-
+        scanner.close();
+        System.exit(0);
     }
 
-    private Jugador buscarJugador() {
+    public Jugador buscarJugador() {
         System.out.println("Ha elegido la opcion de buscar un jugador");
         System.out.println("Ingrese el nombre del jugador a buscar:");
-        String nombreJugador= generalidades.controlVacio();
+        String nombreJugador= Validaciones.obtenerStringNoNulo(scanner,"Nombre del jugador:");
         System.out.println("ingrese el apellido del jugador a buscar:");
-        String apellidoJugador= generalidades.controlVacio();
+        String apellidoJugador= Validaciones.obtenerStringNoNulo(scanner,"Apellido del jugador:");
         Optional<Jugador> optionalJugador=jugadorController.buscarNombreApellidoJugador(nombreJugador,apellidoJugador);
         if (optionalJugador.isPresent()){
             return optionalJugador.get();
@@ -201,7 +233,19 @@ public class MenuJugador implements MenuOptionsHandler{
 
     }
 
-    private boolean asignarJugador(){
+    private boolean asignarJugador(Jugador jugador){
+
+        System.out.println("Ingrese el nombre del equipo a buscar:");
+        String nombreEquipo= Validaciones.obtenerStringNoNulo(scanner,"Nombre del equipo:");
+        Optional<Equipo> optionalEquipo=equipoController.buscarNombreEquipo(nombreEquipo);
+        if (optionalEquipo.isPresent()){
+            equipoController.agregarJugadorAlEquipo(optionalEquipo.get(), jugador);
+            System.out.println("El jugador ha sido agregado exitosamente al equipo");
+            return true;
+        }
+        System.out.println("equipo no encontrado");
+        System.out.println("Se procedera a crear solamente el jugador\n");
+
         return false;
     }
 
@@ -211,7 +255,7 @@ public class MenuJugador implements MenuOptionsHandler{
         do{
             System.out.println("Eliga la posicion que va a jugar");
             System.out.println("1-ARQUERO 2-DEFENSOR 3-MEDIOCAMPISTA 4-DELANTERO");
-            opcion= generalidades.validarOpcionEntero();
+            opcion= Validaciones.validarOpcionEntero(scanner,"Elegir posicion:");
             switch (opcion){
                 case 1 -> {
                     return posicion=Posiciones.ARQUERO;

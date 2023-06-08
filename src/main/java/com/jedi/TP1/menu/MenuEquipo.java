@@ -17,14 +17,15 @@ public class MenuEquipo implements MenuOptionsHandler{
 
     //dependencias de inyecciones
 
-    @Autowired
-    Generalidades generalidades;
 
     @Autowired
     EquipoController equipoController;
 
     @Autowired
     MenuJugador menuJugador;
+
+    @Autowired
+    MenuEntrenador menuEntrenador;
 
     @Autowired
     @Lazy
@@ -40,19 +41,19 @@ public class MenuEquipo implements MenuOptionsHandler{
         do {
             System.out.println("======================================");
             System.out.println("1-Crear Equipo");
-            System.out.println("2-Modificar Equipo");
-            System.out.println("3-Eliminar Equipo");
+            System.out.println("2-Eliminar Equipo");
             System.out.println("4-Visualizar cantidad de equipos totales");
             System.out.println("5-Buscar un equipo");
             System.out.println("8-Volver al menu principal");
             System.out.println("9-Salir");
             System.out.println("======================================");
-            opcion = generalidades.validarOpcionEntero();
+            opcion = Validaciones.validarOpcionEntero(scanner,"Opcion:");
             switch (opcion) {
                 case 1 -> crear();
+                case 2 -> eliminar();
                 case 4 -> listar();
-                case 8 -> menuPrincipal.showMenuPrincipal();
                 case 5 -> buscarEquipo();
+                case 8 -> menuPrincipal.showMenuPrincipal();
                 case 9 -> {
                     System.out.println("Saliendo del programa...");
                     System.exit(0);
@@ -66,7 +67,6 @@ public class MenuEquipo implements MenuOptionsHandler{
 
 
 
-    public void modificarEquipo(){}
 
     @Override
     public void crear() {
@@ -74,41 +74,43 @@ public class MenuEquipo implements MenuOptionsHandler{
 
         System.out.println("***Ha elegido la opcion de crear equipo***\n");
         System.out.println("Por Favor, ingrese el nombre del equipo");
-        System.out.print("nombre:");
-        String nombreEquipo= scanner.nextLine();
+        scanner.nextLine();
+        String nombreEquipo= Validaciones.obtenerStringNoNulo(scanner,"Nombre del equipo:");
         LocalDate fechaHoy= LocalDate.now();
 
-        equipoController.agregarEquipo(nombreEquipo,fechaHoy);
+        Equipo nuevoEquipo=equipoController.agregarEquipo(nombreEquipo,fechaHoy);
 
-        System.out.println("Tiene algun jugador disponible para que agregar a su equipo? 1-SI 2-NO");
-        opcion=generalidades.validarOpcionEntero();
+        System.out.println("crear un jugador para que agregar a su equipo? 1-SI 2-NO");
+        opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
         while (opcion!=2){
             if (opcion == 1) {
-                buscarJugador();
+                buscarJugador(nuevoEquipo);
+                break;
             }else{
                 System.out.println("Ha ingresado una opcion invalida");
             }
-            System.out.println("Tiene algun jugador disponible para agregar a su equipo? 1-SI 2-NO");
-            opcion=generalidades.validarOpcionEntero();
+            System.out.println("crear un jugador para agregar a su equipo? 1-SI 2-NO");
+            opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
         }
 
-        System.out.println("Tiene algun entrenador disponible para agregar a su equipo? 1-SI 2-NO");
-        opcion=generalidades.validarOpcionEntero();
+        System.out.println("crear un entrenador  para agregar a su equipo? 1-SI 2-NO");
+        opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
 
         while (opcion!=2){
             if (opcion == 1) {
-                generalidades.buscarEntrenador();
+                buscarEntrenador(nuevoEquipo);
+                break;
             }{
                 System.out.println("Ha ingresado una opcion invalida");
             }
-            System.out.println("Tiene algun entrenador disponible para agregar a su equipo? 1-SI 2-NO");
-            opcion=generalidades.validarOpcionEntero();
+            System.out.println("crear un entrenador para agregar a su equipo? 1-SI 2-NO");
+            opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
         }
 
 
 
         System.out.println("\nDesea crear otro equipo? 1-SI 2-NO ");
-        opcion=generalidades.validarOpcionEntero();
+        opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
         switch (opcion) {
             case 1 -> crear();
             case 2 -> {
@@ -122,7 +124,7 @@ public class MenuEquipo implements MenuOptionsHandler{
 
     @Override
     public void modificar() {
-
+        System.out.println("Funcionalidad a futuro");
     }
 
     @Override
@@ -148,19 +150,20 @@ public class MenuEquipo implements MenuOptionsHandler{
 
     @Override
     public void volverMenuPrincipal() {
-
+        menuPrincipal.showMenuPrincipal();
     }
 
     @Override
     public void salir() {
-
+        scanner.close();
+        System.exit(0);
     }
 
     private void buscarEquipo(){
 
         System.out.println("Ha elegido la opcion de buscar un equipo");
         System.out.println("Ingrese el nombre del equipo a buscar:");
-        String nombreEquipo= generalidades.controlVacio();
+        String nombreEquipo= Validaciones.obtenerStringNoNulo(scanner, "nombre del equipo:");
         Optional<Equipo> optionalEquipo=equipoController.buscarNombreEquipo(nombreEquipo);
         if (optionalEquipo.isPresent()){
             int opcion;
@@ -170,14 +173,14 @@ public class MenuEquipo implements MenuOptionsHandler{
                 System.out.println("1-nombre, nombre de entrenador y nombre del capitán del equipo");
                 System.out.println("2-su nombre, nombre del entrenador y la lista de los jugadores del equipo");
                 System.out.println("3-salir");
-                opcion=generalidades.validarOpcionEntero();
+                opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
                 switch (opcion){
                     case 1 -> listarEquipoCapitan(optionalEquipo.get());
-                    case 2 -> System.out.println(optionalEquipo.get());//listarEquipoJugadores();
+                    case 2 -> listarEquipoCompleto(optionalEquipo.get());
                     case 3 -> showMenuEquipo();
                     default -> System.out.println("Ha elegido una opcion no valida");
                 }
-                opcion=generalidades.validarOpcionEntero();
+                opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
             } while (opcion !=3);
 
 
@@ -188,23 +191,18 @@ public class MenuEquipo implements MenuOptionsHandler{
     }
 
 
-    //private List<Equipo> listarEquipoJugadores(){}
+    private void listarEquipoCompleto(Equipo equipo){
+        System.out.println("Ha seleccionado la opcion de listar el equipo con todos los jugadores");
+        equipoController.listarEquipoCompleto(equipo);
+        showMenuEquipo();
+    }
 
 
-    private void buscarJugador(){
-        int opcion;
-        do {
-            System.out.println("Ha seleccionado la opcion agregar jugador");
-            System.out.println("1-Crear nuevo jugador 2-Seleccionar uno ya existente 3-salir");
+    private void buscarJugador(Equipo equipo){
+        System.out.println("Ha seleccionado la opcion agregar jugador");
+        menuJugador.crear(equipo);
 
-            opcion=generalidades.validarOpcionEntero();
-            switch (opcion){
-                case 1 -> System.out.println("proximamente");
-                case 2 -> System.out.println("proximament2");
-                case 3 -> showMenuEquipo();
-                default -> System.out.println("Ha elegido una opcion no valida");
-            }
-        } while (opcion !=3);
+
     }
 
     private void listarEquipoCapitan(Equipo equipo){
@@ -216,6 +214,17 @@ public class MenuEquipo implements MenuOptionsHandler{
         System.out.println("Presione Enter para continuar...");
         scanner.nextLine();
         scanner.nextLine();
+        showMenuEquipo();
     }
+
+
+    private void buscarEntrenador(Equipo equipo){
+        System.out.println("Ha seleccionado la opcion agregar entrenador");
+        menuEntrenador.crear(equipo);
+    }
+
+
+
+
 
 }

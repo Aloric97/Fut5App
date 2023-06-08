@@ -22,12 +22,16 @@ public class JugadorController {
         return jugadorServiceImp.buscarNombreApellidoJugador(nombre,apellido);
     }
 
-    public void agregarJugador(String nombre, String apellido, Double altura, Posiciones posicion, int cantidadGoles, boolean esCapitan,int numeroCamiseta){
+    public Jugador agregarJugador(String nombre, String apellido, Double altura, Posiciones posicion, int cantidadGoles, boolean esCapitan,int numeroCamiseta){
         Jugador jugador= new Jugador(nombre,apellido,altura,posicion,cantidadGoles,esCapitan,numeroCamiseta);
         jugadorServiceImp.agregarJugador(jugador);
+        return jugador;
     }
 
     public void listarJugador(){
         jugadorServiceImp.listarJugador();
     }
+
+
+
 }

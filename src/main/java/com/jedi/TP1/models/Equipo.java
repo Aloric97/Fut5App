@@ -19,6 +19,7 @@ public class Equipo {
     public Equipo(String nombre, LocalDate fechaCreacion) {
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
+        this.jugadores = new ArrayList<>();
     }
 
     public Equipo(String nombre, LocalDate fechaCreacion, List<Jugador> jugadores, Entrenador entrenador) {

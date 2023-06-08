@@ -11,8 +11,6 @@ public class Entrenador extends Persona{
     public Entrenador(String nombre, String apellido, Integer edad){
         super(nombre,apellido);
         id_entrenador++;
-        this.nombre=nombre;
-        this.apellido=apellido;
         this.edad=edad;
     }
 

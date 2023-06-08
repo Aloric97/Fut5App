@@ -2,6 +2,7 @@ package com.jedi.TP1.Services.Imp;
 
 
 import com.jedi.TP1.Services.EquipoService;
+import com.jedi.TP1.models.Entrenador;
 import com.jedi.TP1.models.Equipo;
 import com.jedi.TP1.models.Jugador;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,23 @@ public class EquipoServiceImp  implements EquipoService {
                 System.out.println("Equipo: " + cantidad);
                 System.out.println("nombre: " + equipo.getNombre());
                 System.out.println("fecha de creacion: " + equipo.getFechaCreacion());
+                if (equipo.getJugadores().isEmpty()) {
+                    System.out.println("No hay jugadores");
+                }else {
+                    System.out.println("jugadores:");
+                    for (Jugador jugador:equipo.getJugadores()) {
+                        System.out.println("    nombre:"+ jugador.getNombre());
+                        System.out.println("    posicion:"+ jugador.getPosiciones());
+                        System.out.println("    -----------------");
+                    }
+                }
+                if (equipo.getEntrenador()==null){
+                    System.out.println("no hay entrenador");
+                }else {
+                    System.out.println("entrandor:"+equipo.getEntrenador().getNombre());
+
+                }
+
                 if (cantidad != listaEquipo.size()) {
                     System.out.println("-----------------------");
                 }
@@ -56,7 +74,7 @@ public class EquipoServiceImp  implements EquipoService {
     public void listarEquipoCapitan(Equipo equipo) {
         System.out.println("nombre del equipo:"+ equipo.getNombre());
         if (equipo.getEntrenador() != null) {
-            System.out.println("nombre del entrenador:"+ equipo.getEntrenador());
+            System.out.println("nombre del entrenador:"+ equipo.getEntrenador().getNombre());
         } else {
             System.out.println("No tiene entrenador");
         }
@@ -75,5 +93,66 @@ public class EquipoServiceImp  implements EquipoService {
 
 
     }
+
+    @Override
+    public void listarEquipoCompleto(Equipo equipo) {
+        System.out.println("nombre: " + equipo.getNombre());
+        System.out.println("fecha de creacion: " + equipo.getFechaCreacion());
+        if (equipo.getJugadores().isEmpty()) {
+            System.out.println("No hay jugadores");
+        }else {
+            System.out.println("jugadores:");
+            int cantidad=1;
+            for (Jugador jugador:equipo.getJugadores()) {
+                System.out.println("    Jugador nro:" + cantidad);
+                System.out.println("    nombre:"+ jugador.getNombre());
+                System.out.println("    posicion:"+ jugador.getPosiciones());
+                System.out.println("    altura:"+ jugador.getAltura() +" mts");
+                System.out.println("    cantidad de goles:"+ jugador.getCantidadGoles());
+                System.out.println("    capitan:"+ jugador.getEsCapitan());
+                System.out.println("    numero de camiseta:"+ jugador.getNumeroCamiseta());
+                System.out.println("    ----------------------");
+                cantidad++;
+            }
+        }
+        if (equipo.getEntrenador()==null){
+            System.out.println("no hay entrenador");
+        }else {
+            System.out.println("entrenador:"+equipo.getEntrenador().getNombre());
+
+        }
+
+    }
+
+
+    @Override
+    public void agregarJugadorAlEquipo(Equipo equipo,Jugador jugador) {
+
+        if (jugador.getEquipo() != null) {
+            System.out.println("El jugador ya tiene equipo");
+            System.out.println("se procedera solamente a crear el jugador");
+        } else if(jugador.getEsCapitan()) {
+            Optional<Jugador> jugadorCapitan=equipo.getJugadores().stream().filter(Jugador::getEsCapitan).findFirst();
+            if (jugadorCapitan.isPresent()) {
+                System.out.println("El equipo ya tiene un capitan");
+                System.out.println("se procedera solamente a crear el jugador");
+            } else {
+                equipo.getJugadores().add(jugador);
+            }
+        } else {
+            equipo.getJugadores().add(jugador);
+        }
+    }
+
+    @Override
+    public void agregarEntrenadorEquipo(Equipo equipo, Entrenador entrenador) {
+        if (entrenador.getEquipo() != null) {
+            System.out.println("El entrenador ya tiene equipo");
+        } else {
+            equipo.setEntrenador(entrenador);
+        }
+    }
+
+
 }
 

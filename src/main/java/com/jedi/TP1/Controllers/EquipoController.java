@@ -1,7 +1,9 @@
 package com.jedi.TP1.Controllers;
 
 import com.jedi.TP1.Services.Imp.EquipoServiceImp;
+import com.jedi.TP1.models.Entrenador;
 import com.jedi.TP1.models.Equipo;
+import com.jedi.TP1.models.Jugador;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
@@ -19,9 +21,10 @@ public class EquipoController {
         equipoServiceImp= new EquipoServiceImp();
     }
 
-    public void agregarEquipo(String nombre, LocalDate fechaCreacion){
+    public Equipo agregarEquipo(String nombre, LocalDate fechaCreacion){
         Equipo equipo= new Equipo(nombre,fechaCreacion);
         equipoServiceImp.agregarEquipo(equipo);
+        return equipo;
     }
 
     public void listarEquipo(){
@@ -34,6 +37,19 @@ public class EquipoController {
 
     public void listarEquipoCapitan(Equipo equipo){
         equipoServiceImp.listarEquipoCapitan(equipo);
+    }
+
+    public void agregarJugadorAlEquipo(Equipo equipo,Jugador jugador){
+        equipoServiceImp.agregarJugadorAlEquipo(equipo,jugador);
+
+    }
+
+    public void listarEquipoCompleto(Equipo equipo){
+        equipoServiceImp.listarEquipoCompleto(equipo);
+    }
+
+    public void agregarEntrenadorEquipo(Equipo equipo, Entrenador entrenador){
+        equipoServiceImp.agregarEntrenadorEquipo(equipo, entrenador);
     }
 
 }

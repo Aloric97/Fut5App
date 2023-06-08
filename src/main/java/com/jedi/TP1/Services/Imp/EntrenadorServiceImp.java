@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EntrenadorServiceImp implements EntrenadorService {
@@ -37,4 +38,25 @@ public class EntrenadorServiceImp implements EntrenadorService {
             }
         }
     }
+
+    @Override
+    public boolean eliminarEntrenador(String nombre) {
+        Optional<Entrenador> findEntrenador= buscarEntrenador(nombre);
+        if (findEntrenador.isPresent()){
+            listaEntrenador.remove(findEntrenador.get());
+            System.out.println("Entrenador eliminado...");
+            return true;
+        } else {
+            System.out.println("entrenador no existe");
+            return false;
+        }
+    }
+
+    @Override
+    public Optional<Entrenador> buscarEntrenador(String nombre) {
+        return listaEntrenador.stream()
+                .filter(entrenador -> entrenador.getNombre().equalsIgnoreCase(nombre))
+                .findFirst();
+    }
+
 }

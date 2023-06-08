@@ -14,8 +14,6 @@ public class MenuPrincipal{
 
 
 
-    @Autowired
-    Generalidades generalidades;
 
 
 
@@ -45,7 +43,7 @@ public class MenuPrincipal{
             System.out.println("3-Gestion de Entrenador");
             System.out.println("9-Salir");
             System.out.println("======================================");
-            opcion=generalidades.validarOpcionEntero();
+            opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
             switch (opcion) {
                 case 1 -> menuEquipo.showMenuEquipo();
                 case 2 -> menuJugador.showMenuJugador();
