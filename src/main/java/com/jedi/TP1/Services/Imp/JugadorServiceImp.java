@@ -55,7 +55,7 @@ public class JugadorServiceImp implements JugadorService {
                     Jugador jugador= new Jugador(parts[0],parts[1],Double.parseDouble(parts[2]), Posiciones.valueOf(parts[3]),Integer.parseInt(parts[4]),Boolean.getBoolean(parts[5]),Integer.parseInt(parts[6]));
                     equipoServiceImp.agregarJugadorAlEquipo(optionalEquipo.get(),jugador);
                 }
-                System.out.println("jugadores agregados al equipo:"+ optionalEquipo.get().getNombre()+" exitosamente");
+                System.out.println("jugadores agregados al equipo "+ optionalEquipo.get().getNombre()+" exitosamente");
 
             } catch (IOException error) {
                 System.out.println("Ha ocurrido un error:" + error);

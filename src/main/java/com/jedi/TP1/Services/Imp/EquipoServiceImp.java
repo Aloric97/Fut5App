@@ -173,6 +173,33 @@ public class EquipoServiceImp  implements EquipoService {
             equipo.getJugadores().sort(Comparator.comparing(Jugador::getNombre));
             listarEquipoCompleto(equipo);
 
+        }else {
+            System.out.println("no existe el equipo");
+        }
+
+    }
+
+    @Override
+    public void ordenarPorCamiseta(String nombre) {
+        Optional<Equipo> optionalEquipo= buscarEquipo(nombre);
+        if (optionalEquipo.isPresent()) {
+            Equipo equipo = optionalEquipo.get();
+            equipo.getJugadores().sort(Comparator.comparing(Jugador::getNumeroCamiseta));
+            listarEquipoCompleto(equipo);
+
+        }else {
+            System.out.println("no existe el equipo");
+        }
+
+    }
+
+    @Override
+    public void ordenarPorPosicionCamiseta(String nombre) {
+        Optional<Equipo> optionalEquipo= buscarEquipo(nombre);
+        if (optionalEquipo.isPresent()) {
+            Equipo equipo = optionalEquipo.get();
+            equipo.getJugadores().sort(Comparator.comparing(Jugador::getPosiciones).thenComparing(Jugador::getNumeroCamiseta));
+            listarEquipoCompleto(equipo);
 
         }else {
             System.out.println("no existe el equipo");

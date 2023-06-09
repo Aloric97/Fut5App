@@ -36,7 +36,7 @@ public class MenuEquipo implements MenuOptionsHandler {
     public void showMenuEquipo(){
         int opcion;
 
-        System.out.println("Bienvenidos a la gestion de equipos, por favor elija una opcion valida:\n");
+        System.out.println("\n Bienvenidos a la gestion de equipos, por favor elija una opcion valida:");
         do {
             System.out.println("======================================");
             System.out.println("1-Crear Equipo");
@@ -194,22 +194,25 @@ public class MenuEquipo implements MenuOptionsHandler {
     private void listarEquipoCompleto(Equipo equipo){
         System.out.println("Ha seleccionado la opcion de listar el equipo con todos los jugadores");
         equipoServiceImp.listarEquipoCompleto(equipo);
-
+        System.out.println("****************************************");
         int opcion;
         do {
-            System.out.println("1-lista de los jugadores del equipo ordenados por su nombre.");
+            System.out.println("\n1-lista de los jugadores del equipo ordenados por su nombre.");
             System.out.println("2-lista de los jugadores del equipo ordenados por número de camiseta.");
             System.out.println("3-lista de los jugadores del equipo ordenados por su posición y número de camiseta.");
-            System.out.println("4-salir");
+            System.out.println("4-salir\n");
             opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
             switch (opcion){
-                case 1 -> equipoServiceImp.ordenarPorNombreJugadores(equipo.getNombre());
-                case 2 -> System.out.println("por imeplementar");
-                case 3 -> System.out.println("por imeplementar2");
+                case 1 -> ordenarPorNombreJugadores(equipo);
+                case 2 -> ordenarPorCamiseta(equipo);
+                case 3 -> ordenarPorPosicionCamiseta(equipo);
                 case 4 -> showMenuEquipo();
                 default -> System.out.println("Ha elegido una opcion no valida");
             }
         } while (opcion !=4);
+
+
+
 
         System.out.println("Presione Enter para continuar...");
         scanner.nextLine();
@@ -261,5 +264,69 @@ public class MenuEquipo implements MenuOptionsHandler {
 
     }
 
+    private void exportarJugadores(String nombreEquipo){
+        Optional<Equipo> findEquipo= equipoServiceImp.buscarEquipo(nombreEquipo);
+
+        if (findEquipo.isPresent()) {
+            equipoServiceImp.exportarEquipo(findEquipo.get());
+        }else {
+            System.out.println("Jugador no encontrado");
+        }
+
+        System.out.println("Presione Enter para continuar...");
+        scanner.nextLine();
+        showMenuEquipo();
+    }
+
+
+    private void ordenarPorNombreJugadores(Equipo equipo){
+        equipoServiceImp.ordenarPorNombreJugadores(equipo.getNombre());
+
+        System.out.println("Desea exportar este archivo ordenado? 1-SI 2-NO");        int opcion=Validaciones.validarOpcionEntero(scanner,"opcion:");
+
+        switch (opcion) {
+            case 1 -> exportarJugadores(equipo.getNombre());
+            case 2 -> {
+                System.out.println("volviendo al menu de equipos...\n");
+                showMenuEquipo();
+            }
+            default -> System.out.println("Ha ingresado una opcion invalida");
+        }
+    }
+
+    private void ordenarPorCamiseta(Equipo equipo){
+
+        equipoServiceImp.ordenarPorCamiseta(equipo.getNombre());
+
+        System.out.println("Desea exportar este archivo ordenado? 1-SI 2-NO");
+        int opcion=Validaciones.validarOpcionEntero(scanner,"opcion:");
+        switch (opcion) {
+            case 1 -> exportarJugadores(equipo.getNombre());
+            case 2 -> {
+                System.out.println("volviendo al menu de equipos...\n");
+                showMenuEquipo();
+            }
+            default -> System.out.println("Ha ingresado una opcion invalida");
+        }
+
+    }
+
+    private void ordenarPorPosicionCamiseta(Equipo equipo){
+
+        equipoServiceImp.ordenarPorPosicionCamiseta(equipo.getNombre());
+
+        System.out.println("Desea exportar este archivo ordenado? 1-SI 2-NO");
+
+        int opcion=Validaciones.validarOpcionEntero(scanner,"opcion:");
+        switch (opcion) {
+            case 1 -> exportarJugadores(equipo.getNombre());
+            case 2 -> {
+                System.out.println("volviendo al menu de equipos...\n");
+                showMenuEquipo();
+            }
+            default -> System.out.println("Ha ingresado una opcion invalida");
+        }
+
+    }
 
 }
