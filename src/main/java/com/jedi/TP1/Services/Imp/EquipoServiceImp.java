@@ -7,6 +7,9 @@ import com.jedi.TP1.models.Equipo;
 import com.jedi.TP1.models.Jugador;
 import org.springframework.stereotype.Service;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -175,6 +178,28 @@ public class EquipoServiceImp  implements EquipoService {
             System.out.println("no existe el equipo");
         }
 
+    }
+
+    @Override
+    public void exportarEquipo( Equipo equipo) {
+
+        String rutaProyecto = System.getProperty("user.dir");
+        String rutaCarpeta = rutaProyecto + "/src/main/resources/Salida";
+        LocalDate fechaHoy= LocalDate.now();
+        String nombreArchivo = "jugadores_exportados_"+equipo.getNombre()+"_"+fechaHoy+".txt";
+        String rutaArchivo = rutaCarpeta + "/" + nombreArchivo;
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(rutaArchivo))) {
+            for (Jugador jugador : equipo.getJugadores()) {
+                String linea = jugador.getNombre() + "," + jugador.getApellido() + "," + jugador.getAltura() + "," +
+                        jugador.getPosiciones().name() + "," + jugador.getCantidadGoles() + "," + jugador.getEsCapitan() + "," +
+                        jugador.getNumeroCamiseta();
+                writer.println(linea);
+            }
+            System.out.println("Los jugadores se han exportado correctamente al archivo: " + rutaArchivo);
+        } catch (IOException e) {
+            System.out.println("Ha ocurrido un error al exportar los jugadores: " + e.getMessage());
+        }
     }
 
 }

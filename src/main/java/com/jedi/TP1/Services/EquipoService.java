@@ -29,5 +29,7 @@ public interface EquipoService {
 
     void ordenarPorNombreJugadores(String nombre);
 
+    void exportarEquipo(Equipo equipo);
+
 
 }

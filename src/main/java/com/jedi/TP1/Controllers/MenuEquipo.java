@@ -43,6 +43,7 @@ public class MenuEquipo implements MenuOptionsHandler {
             System.out.println("2-Eliminar Equipo");
             System.out.println("4-Visualizar cantidad de equipos totales");
             System.out.println("5-Buscar un equipo");
+            System.out.println("6-exportar jugadores de un equipo extension .txt");
             System.out.println("8-Volver al menu principal");
             System.out.println("9-Salir");
             System.out.println("======================================");
@@ -52,6 +53,7 @@ public class MenuEquipo implements MenuOptionsHandler {
                 case 2 -> eliminar();
                 case 4 -> listar();
                 case 5 -> buscarEquipo();
+                case 6 -> exportarJugadores();
                 case 8 -> menuPrincipal.showMenuPrincipal();
                 case 9 -> {
                     System.out.println("Saliendo del programa...");
@@ -61,6 +63,7 @@ public class MenuEquipo implements MenuOptionsHandler {
             }
         } while (opcion!=9);
     }
+
 
 
     @Override
@@ -181,7 +184,8 @@ public class MenuEquipo implements MenuOptionsHandler {
 
 
         } else {
-            System.out.println("equipo no encontrado");
+            scanner.nextLine();
+            System.out.println("\nequipo no encontrado");
 
         }
     }
@@ -228,7 +232,6 @@ public class MenuEquipo implements MenuOptionsHandler {
         System.out.println("=========================");
         System.out.println("Presione Enter para continuar...");
         scanner.nextLine();
-        scanner.nextLine();
         showMenuEquipo();
     }
 
@@ -237,5 +240,26 @@ public class MenuEquipo implements MenuOptionsHandler {
         System.out.println("Ha seleccionado la opcion agregar entrenador");
         menuEntrenador.crear(equipo);
     }
+
+    private void exportarJugadores() {
+        System.out.println("Ha seleccionado la opcion exportar jugadores\n");
+
+        System.out.println("por favor, ingrese el nombre del equipo:");
+        String nombreEquipo= Validaciones.obtenerStringNoNulo(scanner,"nombre del equipo:");
+
+        Optional<Equipo> findEquipo= equipoServiceImp.buscarEquipo(nombreEquipo);
+
+        if (findEquipo.isPresent()) {
+            equipoServiceImp.exportarEquipo(findEquipo.get());
+        }else {
+            System.out.println("Jugador no encontrado");
+        }
+
+        System.out.println("Presione Enter para continuar...");
+        scanner.nextLine();
+        showMenuEquipo();
+
+    }
+
 
 }

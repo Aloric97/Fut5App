@@ -1,0 +1,27 @@
+lean,tombe,3.0,MEDIOCAMPISTA,20,true,10
+﻿Brittney,Hyde,1.88,ARQUERO,91,false,55
+Kevyn,Silverson,1.43,ARQUERO,33,false,4
+Salaidh,McAnalley,1.0,DEFENSOR,49,false,22
+Alexi,MacAllan,1.6,MEDIOCAMPISTA,73,false,24
+Shepherd,Calvie,1.93,DEFENSOR,45,false,39
+Filippo,Sines,1.04,DELANTERO,87,false,21
+Baird,Wyke,1.15,MEDIOCAMPISTA,41,false,12
+Cooper,Ready,1.63,DELANTERO,67,false,42
+Magdalena,Le Gall,1.71,MEDIOCAMPISTA,43,false,19
+Constancy,Houlden,1.49,ARQUERO,17,false,28
+Lia,McRannell,1.99,DELANTERO,62,false,5
+Nefen,Paz,1.33,DELANTERO,94,false,21
+Leilah,Chant,1.54,DEFENSOR,66,false,27
+Andeee,Valois,1.33,MEDIOCAMPISTA,61,false,52
+Cob,Murgatroyd,1.13,ARQUERO,61,false,50
+Hanny,Gobat,1.49,MEDIOCAMPISTA,77,false,95
+Torrie,Martyntsev,1.43,DEFENSOR,25,false,30
+Gaston,Boss,1.58,MEDIOCAMPISTA,53,false,7
+Guy,Meineken,1.63,MEDIOCAMPISTA,52,false,47
+Derry,MacDonagh,1.26,MEDIOCAMPISTA,2,false,28
+Thomas,Nannizzi,1.48,DEFENSOR,55,false,83
+Carlita,Baser,1.28,DELANTERO,73,false,32
+Jamesy,Kellar,1.8,ARQUERO,1,false,95
+Coriss,Remon,1.82,DEFENSOR,60,false,29
+Lisbeth,Chate,1.52,DEFENSOR,67,false,34
+Wini,holmes,1.52,ARQUERO,10,false,73

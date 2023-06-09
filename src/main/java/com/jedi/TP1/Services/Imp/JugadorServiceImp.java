@@ -44,9 +44,7 @@ public class JugadorServiceImp implements JugadorService {
         String rutaCarpeta = rutaProyecto + "/src/main/resources/Entrada";
 
 
-        System.out.println("Desea importar algunos de estos archivos?");
         Path obtenerArchivo = Paths.get(rutaCarpeta+"/"+nombreArchivo);
-        System.out.println("Elija el equipo donde quiere agregar estos jugadores");
         Optional<Equipo> optionalEquipo=equipoServiceImp.buscarEquipo(equipo);
         if (optionalEquipo.isPresent()) {
             System.out.println("\nAgregando jugadores...");
