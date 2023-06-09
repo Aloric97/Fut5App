@@ -2,13 +2,22 @@ package com.jedi.TP1.menu;
 
 import com.jedi.TP1.Controllers.EquipoController;
 import com.jedi.TP1.Controllers.JugadorController;
+import com.jedi.TP1.Services.JugadorService;
 import com.jedi.TP1.enums.Posiciones;
 import com.jedi.TP1.models.Equipo;
 import com.jedi.TP1.models.Jugador;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -26,6 +35,9 @@ public class MenuJugador implements MenuOptionsHandler{
     EquipoController equipoController;
 
     @Autowired
+    JugadorService jugadorService;
+
+    @Autowired
     @Lazy
     MenuPrincipal menuPrincipal;
 
@@ -41,6 +53,7 @@ public class MenuJugador implements MenuOptionsHandler{
             System.out.println("3-Eliminar jugador");
             System.out.println("4-Visualizar cantidad de jugadores");
             System.out.println("5-Buscar un jugador");
+            System.out.println("6-Importar archivo .txt con jugadores");
             System.out.println("8-Volver al menu principal");
             System.out.println("9-Salir");
             System.out.println("======================================");
@@ -51,6 +64,7 @@ public class MenuJugador implements MenuOptionsHandler{
                 case 3 -> eliminar();
                 case 4 -> listar();
                 case 5 -> buscarJugador();
+                case 6 -> importarArchivo();
                 case 8 -> volverMenuPrincipal();
                 case 9 -> {
                     System.out.println("Saliendo del programa...");
@@ -60,6 +74,8 @@ public class MenuJugador implements MenuOptionsHandler{
             }
         } while (opcion!=9);
     }
+
+
 
     @Override
     public void crear() {
@@ -276,6 +292,27 @@ public class MenuJugador implements MenuOptionsHandler{
         return null;
     }
 
+    private void importarArchivo() {
+
+        System.out.println("Ha seleccionado la opcion 'importar archivo' \n");
+        jugadorService.visualizarArchivos();
+        scanner.nextLine();
+        String nombreArchivo = Validaciones.obtenerStringNoNulo(scanner, "Nombre del archivo:");
+        System.out.println("Elija el equipo donde quiere agregar estos jugadores");
+        String nombreEquipo = Validaciones.obtenerStringNoNulo(scanner, "Nombre del equipo:");
+
+        jugadorService.importarJugadores(nombreArchivo,nombreEquipo);
 
 
+        //para obtener la ruta central
+        String rutaProyecto = System.getProperty("user.dir");
+        String rutaCarpeta = rutaProyecto + "/src/main/resources/Entrada";
+
+
+
+    }
 }
+
+
+
+
