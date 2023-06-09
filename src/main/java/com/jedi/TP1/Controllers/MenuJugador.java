@@ -107,7 +107,6 @@ public class MenuJugador implements MenuOptionsHandler {
     public void crear(Equipo equipo) {
 
         System.out.println("Por Favor, ingrese el nombre del jugador");
-        scanner.nextLine();
         String nombreJugador= Validaciones.obtenerStringNoNulo(scanner,"Nombre del jugador:");
 
         System.out.println("Por Favor, ingrese el apellido del jugador");

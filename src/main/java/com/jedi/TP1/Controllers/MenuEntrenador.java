@@ -101,7 +101,6 @@ public class MenuEntrenador  implements MenuOptionsHandler {
     public void crear(Equipo equipo) {
         int opcion;
 
-        scanner.nextLine();
         System.out.println("Por Favor, ingrese el nombre del entrenador");
         String nombreEntrenador= Validaciones.obtenerStringNoNulo(scanner,"nombre del entrenador:");
 

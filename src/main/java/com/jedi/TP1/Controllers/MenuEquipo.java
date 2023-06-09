@@ -72,7 +72,6 @@ public class MenuEquipo implements MenuOptionsHandler {
 
         System.out.println("***Ha elegido la opcion de crear equipo***\n");
         System.out.println("Por Favor, ingrese el nombre del equipo");
-        scanner.nextLine();
         String nombreEquipo= Validaciones.obtenerStringNoNulo(scanner,"Nombre del equipo:");
         LocalDate fechaHoy= LocalDate.now();
 
