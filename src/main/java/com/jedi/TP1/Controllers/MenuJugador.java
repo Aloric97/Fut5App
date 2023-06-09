@@ -1,41 +1,31 @@
-package com.jedi.TP1.menu;
+package com.jedi.TP1.Controllers;
 
-import com.jedi.TP1.Controllers.EquipoController;
-import com.jedi.TP1.Controllers.JugadorController;
-import com.jedi.TP1.Services.JugadorService;
+import com.jedi.TP1.Services.Imp.EquipoServiceImp;
+import com.jedi.TP1.Services.Imp.JugadorServiceImp;
+import com.jedi.TP1.Validacion.Validaciones;
 import com.jedi.TP1.enums.Posiciones;
 import com.jedi.TP1.models.Equipo;
 import com.jedi.TP1.models.Jugador;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-
 @Component
-public class MenuJugador implements MenuOptionsHandler{
+public class MenuJugador implements MenuOptionsHandler {
 
 
     Scanner scanner= new Scanner(System.in);
 
     @Autowired
-    JugadorController jugadorController;
+    EquipoServiceImp equipoServiceImp;
 
     @Autowired
-    EquipoController equipoController;
+    JugadorServiceImp jugadorServiceImp;
 
-    @Autowired
-    JugadorService jugadorService;
+
 
     @Autowired
     @Lazy
@@ -102,7 +92,7 @@ public class MenuJugador implements MenuOptionsHandler{
         System.out.print("opcion:");
         int numeroCamiseta= scanner.nextInt();
 
-        Jugador nuevoJugador=jugadorController.agregarJugador(nombreJugador,apellidoJugador,alturaJugador,posicion,cantidadGoles,esCapitan,numeroCamiseta);
+        Jugador nuevoJugador=jugadorServiceImp.agregarJugador(nombreJugador,apellidoJugador,alturaJugador,posicion,cantidadGoles,esCapitan,numeroCamiseta);
         System.out.println("Quiere agregarlo a un equipo? 1-SI 2-NO");
         opcion=Validaciones.validarOpcionEntero(scanner, "Opcion:");
         if (opcion == 1) {
@@ -135,11 +125,13 @@ public class MenuJugador implements MenuOptionsHandler{
         System.out.println("ingrese el numero de la camiseta:");
         int numeroCamiseta= Validaciones.validarOpcionEntero(scanner,"Numero de camiseta:");
 
-        Jugador nuevoJugador=jugadorController.agregarJugador(nombreJugador,apellidoJugador,alturaJugador,posicion,cantidadGoles,esCapitan,numeroCamiseta);
+        Jugador nuevoJugador=jugadorServiceImp.agregarJugador(nombreJugador,apellidoJugador,alturaJugador,posicion,cantidadGoles,esCapitan,numeroCamiseta);
         equipo.getJugadores().add(nuevoJugador);
 
     }
 
+
+    //ESTO DEBE ESTAR EN EL SERVICIO DE JUGADOR
     @Override
     public void modificar() {
         try {
@@ -205,14 +197,18 @@ public class MenuJugador implements MenuOptionsHandler{
 
     @Override
     public void eliminar() {
-
+        System.out.println("Ha elegido la opcion de eliminar juagdor");
+        System.out.println("por favor, ingrese su nombre para buscarlo y eliminarlo");
+        String nombreJugador =Validaciones.obtenerStringNoNulo(scanner,"nombre del jugador:");
+        String apellidoJugador= Validaciones.obtenerStringNoNulo(scanner,"Apellido del jugador:");
+        jugadorServiceImp.eliminarJugador(nombreJugador,apellidoJugador);
     }
 
     @Override
     public void listar() {
         System.out.println("los jugadores creados son:");
         System.out.println("=========================");
-        jugadorController.listarJugador();
+        jugadorServiceImp.listarJugador();
         System.out.println("=========================");
         System.out.println("Presione Enter para continuar...");
         scanner.nextLine();
@@ -239,7 +235,7 @@ public class MenuJugador implements MenuOptionsHandler{
         String nombreJugador= Validaciones.obtenerStringNoNulo(scanner,"Nombre del jugador:");
         System.out.println("ingrese el apellido del jugador a buscar:");
         String apellidoJugador= Validaciones.obtenerStringNoNulo(scanner,"Apellido del jugador:");
-        Optional<Jugador> optionalJugador=jugadorController.buscarNombreApellidoJugador(nombreJugador,apellidoJugador);
+        Optional<Jugador> optionalJugador=jugadorServiceImp.buscarNombreApellidoJugador(nombreJugador,apellidoJugador);
         if (optionalJugador.isPresent()){
             return optionalJugador.get();
         }
@@ -250,12 +246,11 @@ public class MenuJugador implements MenuOptionsHandler{
     }
 
     private boolean asignarJugador(Jugador jugador){
-
         System.out.println("Ingrese el nombre del equipo a buscar:");
         String nombreEquipo= Validaciones.obtenerStringNoNulo(scanner,"Nombre del equipo:");
-        Optional<Equipo> optionalEquipo=equipoController.buscarNombreEquipo(nombreEquipo);
+        Optional<Equipo> optionalEquipo=equipoServiceImp.buscarEquipo(nombreEquipo);
         if (optionalEquipo.isPresent()){
-            equipoController.agregarJugadorAlEquipo(optionalEquipo.get(), jugador);
+            equipoServiceImp.agregarJugadorAlEquipo(optionalEquipo.get(), jugador);
             System.out.println("El jugador ha sido agregado exitosamente al equipo");
             return true;
         }
@@ -295,24 +290,16 @@ public class MenuJugador implements MenuOptionsHandler{
     private void importarArchivo() {
 
         System.out.println("Ha seleccionado la opcion 'importar archivo' \n");
-        jugadorService.visualizarArchivos();
+        jugadorServiceImp.visualizarArchivos();
         scanner.nextLine();
         String nombreArchivo = Validaciones.obtenerStringNoNulo(scanner, "Nombre del archivo:");
         System.out.println("Elija el equipo donde quiere agregar estos jugadores");
         String nombreEquipo = Validaciones.obtenerStringNoNulo(scanner, "Nombre del equipo:");
 
-        jugadorService.importarJugadores(nombreArchivo,nombreEquipo);
+        jugadorServiceImp.importarJugadores(nombreArchivo,nombreEquipo);
 
-
-        //para obtener la ruta central
-        String rutaProyecto = System.getProperty("user.dir");
-        String rutaCarpeta = rutaProyecto + "/src/main/resources/Entrada";
 
 
 
     }
 }
-
-
-
-

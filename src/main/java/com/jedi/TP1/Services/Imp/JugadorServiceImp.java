@@ -1,6 +1,5 @@
 package com.jedi.TP1.Services.Imp;
 
-import com.jedi.TP1.Controllers.EquipoController;
 import com.jedi.TP1.Services.JugadorService;
 import com.jedi.TP1.enums.Posiciones;
 import com.jedi.TP1.models.Equipo;
@@ -24,7 +23,7 @@ public class JugadorServiceImp implements JugadorService {
 
 
     @Autowired
-    EquipoController equipoController;
+    EquipoServiceImp equipoServiceImp;
 
     private final List<Jugador> listaJugador= new ArrayList<>();
 
@@ -48,7 +47,7 @@ public class JugadorServiceImp implements JugadorService {
         System.out.println("Desea importar algunos de estos archivos?");
         Path obtenerArchivo = Paths.get(rutaCarpeta+"/"+nombreArchivo);
         System.out.println("Elija el equipo donde quiere agregar estos jugadores");
-        Optional<Equipo> optionalEquipo=equipoController.buscarNombreEquipo(equipo);
+        Optional<Equipo> optionalEquipo=equipoServiceImp.buscarEquipo(equipo);
         if (optionalEquipo.isPresent()) {
             System.out.println("\nAgregando jugadores...");
             try {
@@ -56,7 +55,7 @@ public class JugadorServiceImp implements JugadorService {
                 for (String line : lines) {
                     String[] parts = line.split(",");
                     Jugador jugador= new Jugador(parts[0],parts[1],Double.parseDouble(parts[2]), Posiciones.valueOf(parts[3]),Integer.parseInt(parts[4]),Boolean.getBoolean(parts[5]),Integer.parseInt(parts[6]));
-                    equipoController.agregarJugadorAlEquipo(optionalEquipo.get(),jugador);
+                    equipoServiceImp.agregarJugadorAlEquipo(optionalEquipo.get(),jugador);
                 }
                 System.out.println("jugadores agregados al equipo:"+ optionalEquipo.get().getNombre()+" exitosamente");
 
@@ -99,8 +98,22 @@ public class JugadorServiceImp implements JugadorService {
     }
 
     @Override
-    public void agregarJugador(Jugador jugador) {
+    public void eliminarJugador(String nombre, String apellido) {
+        Optional<Jugador> findJugador= buscarNombreApellidoJugador(nombre,apellido);
+        if (findJugador.isPresent()){
+            listaJugador.remove(findJugador.get());
+            System.out.println("Jugador eliminado...");
+        } else {
+            System.out.println("Jugador no existe");
+        }
+
+    }
+
+    @Override
+    public Jugador agregarJugador(String nombreJugador, String apellidoJugador, Double alturaJugador, Posiciones posicion,Integer cantidadGoles,Boolean esCapitan,Integer numeroCamiseta) {
+        Jugador jugador = new Jugador(nombreJugador,apellidoJugador,alturaJugador,posicion,cantidadGoles,esCapitan,numeroCamiseta);
         listaJugador.add(jugador);
+        return jugador;
     }
 
     @Override

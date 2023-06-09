@@ -7,11 +7,11 @@ import java.util.Optional;
 public interface EntrenadorService {
 
 
-    void agregarEntrenador(Entrenador entrenador);
+    Entrenador agregarEntrenador(String nombreEntrenador, String apellidoEntrenador,Integer edadEntrenador);
 
     void listarEntrenadores();
 
-    boolean eliminarEntrenador(String nombre);
+    void eliminarEntrenador(String nombre);
 
     Optional<Entrenador> buscarEntrenador(String nombre);
 

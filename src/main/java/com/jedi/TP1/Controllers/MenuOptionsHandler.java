@@ -1,4 +1,4 @@
-package com.jedi.TP1.menu;
+package com.jedi.TP1.Controllers;
 
 public interface MenuOptionsHandler {
 

@@ -1,8 +1,9 @@
-package com.jedi.TP1.menu;
+package com.jedi.TP1.Controllers;
 
+import com.jedi.TP1.Services.Imp.EntrenadorServiceImp;
+import com.jedi.TP1.Services.Imp.EquipoServiceImp;
 
-import com.jedi.TP1.Controllers.EntrenadorController;
-import com.jedi.TP1.Controllers.EquipoController;
+import com.jedi.TP1.Validacion.Validaciones;
 import com.jedi.TP1.models.Entrenador;
 import com.jedi.TP1.models.Equipo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +14,15 @@ import java.util.Optional;
 import java.util.Scanner;
 
 @Component
-public class MenuEntrenador  implements  MenuOptionsHandler{
+public class MenuEntrenador  implements MenuOptionsHandler {
 
 
 
     @Autowired
-    EntrenadorController entrenadorController;
+    EntrenadorServiceImp entrenadorServiceImp;
 
     @Autowired
-    EquipoController equipoController;
+    EquipoServiceImp equipoServiceImp;
 
     @Autowired
     @Lazy
@@ -74,7 +75,7 @@ public class MenuEntrenador  implements  MenuOptionsHandler{
         System.out.println("ingrese la edad del entrenador");
         int edadEntrenador = Validaciones.validarOpcionEntero(scanner, "edad del entrenador:");
 
-        Entrenador nuevoEntrenador= entrenadorController.agregarEntrenador(nombreEntrenador,apellidoEntrenador,edadEntrenador);
+        Entrenador nuevoEntrenador= entrenadorServiceImp.agregarEntrenador(nombreEntrenador,apellidoEntrenador,edadEntrenador);
 
         System.out.println("Quiere agregarlo a un equipo? 1-SI 2-NO");
         opcion=Validaciones.validarOpcionEntero(scanner, "opcion:");
@@ -110,7 +111,7 @@ public class MenuEntrenador  implements  MenuOptionsHandler{
         System.out.println("ingrese la edad del entrenador");
         int edadEntrenador = Validaciones.validarOpcionEntero(scanner,"Edad del entrenador:");
 
-        Entrenador nuevoEntrenador= entrenadorController.agregarEntrenador(nombreEntrenador,apellidoEntrenador,edadEntrenador);
+        Entrenador nuevoEntrenador= entrenadorServiceImp.agregarEntrenador(nombreEntrenador,apellidoEntrenador,edadEntrenador);
         equipo.setEntrenador(nuevoEntrenador);
 
         System.out.println("entrenador creado y unido al equipo con exito");
@@ -127,15 +128,15 @@ public class MenuEntrenador  implements  MenuOptionsHandler{
     public void eliminar() {
         System.out.println("Ha elegido la opcion de eliminar un entrenado");
         System.out.println("por favor, ingrese su nombre para buscarlo y eliminarlo");
-        String nombreEntrenador =Validaciones.obtenerStringNoNulo(scanner,"nombre del entrenador:");
-        entrenadorController.eliminarEntrenador(nombreEntrenador);
+        String nombreEntrenador =Validaciones.obtenerStringNoNulo(scanner,"Nombre del entrenador:");
+        entrenadorServiceImp.eliminarEntrenador(nombreEntrenador);
     }
 
     @Override
     public void listar() {
         System.out.println("los entrenadores creados son:");
         System.out.println("=========================");
-        entrenadorController.listarEntrenadores();
+        entrenadorServiceImp.listarEntrenadores();
         System.out.println("=========================");
         System.out.println("Presione Enter para continuar...");
         scanner.nextLine();
@@ -157,7 +158,7 @@ public class MenuEntrenador  implements  MenuOptionsHandler{
         System.out.println("Ingrese el nombre del entrenador a buscar:");
         String nombreEntrenador= Validaciones.obtenerStringNoNulo(scanner,"Nombre del entrenador:");
 
-        Optional<Entrenador> optionalEntrenador=entrenadorController.buscarNombreEntrenador(nombreEntrenador);
+        Optional<Entrenador> optionalEntrenador=entrenadorServiceImp.buscarEntrenador(nombreEntrenador);
         if (optionalEntrenador.isPresent()){
             System.out.println("entrenador encontrado");
             System.out.println("nombre: " + optionalEntrenador.get().getNombre());
@@ -173,9 +174,9 @@ public class MenuEntrenador  implements  MenuOptionsHandler{
         System.out.println("Ha seleccionado la opcion de agregarlo a un equipo");
         System.out.println("Ingrese el nombre del equipo a buscar:");
         String nombreEquipo= Validaciones.obtenerStringNoNulo(scanner,"Nombre del equipo:");
-        Optional<Equipo> optionalEquipo=equipoController.buscarNombreEquipo(nombreEquipo);
+        Optional<Equipo> optionalEquipo=equipoServiceImp.buscarEquipo(nombreEquipo);
         if (optionalEquipo.isPresent()){
-            equipoController.agregarEntrenadorEquipo(optionalEquipo.get(), entrenador);
+            equipoServiceImp.agregarEntrenadorEquipo(optionalEquipo.get(), entrenador);
 
         } else {
             System.out.println("equipo no encontrado");

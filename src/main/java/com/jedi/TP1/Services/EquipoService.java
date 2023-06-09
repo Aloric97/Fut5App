@@ -4,14 +4,14 @@ import com.jedi.TP1.models.Entrenador;
 import com.jedi.TP1.models.Equipo;
 import com.jedi.TP1.models.Jugador;
 
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
 
 public interface EquipoService {
 
 
-    void agregarEquipo(Equipo equipo);
+    Equipo agregarEquipo(String nombreEquipo, LocalDate fechaHoy);
 
     void listarEquipos();
 
@@ -25,6 +25,9 @@ public interface EquipoService {
 
     void agregarEntrenadorEquipo(Equipo equipo, Entrenador entrenador);
 
+    void eliminarEquipo(String nombre);
+
+    void ordenarPorNombreJugadores(String nombre);
 
 
 }

@@ -1,26 +1,16 @@
-package com.jedi.TP1.menu;
+package com.jedi.TP1.Validacion;
 
-import com.jedi.TP1.Controllers.JugadorController;
-import com.jedi.TP1.models.Jugador;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.Scanner;
 
 
-@Component
 public class Validaciones {
-
-
-
-
-
 
     //Maneja el control de opciones, caso de que ingrese una entrada de datos que no sea entero,
     // le pedira que vuelva a ingresa la entrada de datos
 
-    public static Integer validarOpcionEntero(Scanner scanner,String mensaje){
+    public static Integer validarOpcionEntero(Scanner scanner, String mensaje){
         int opcion;
 
         do {
@@ -37,6 +27,9 @@ public class Validaciones {
 
         return opcion;
     }
+
+
+    //maneja los string nulos en caso de que el usuario aprete enter sin cargar ninguna cadena
 
     public static String obtenerStringNoNulo(Scanner scanner, String mensaje) {
         String entrada = null;

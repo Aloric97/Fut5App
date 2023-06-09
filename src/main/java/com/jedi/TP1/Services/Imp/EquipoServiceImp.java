@@ -7,9 +7,9 @@ import com.jedi.TP1.models.Equipo;
 import com.jedi.TP1.models.Jugador;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class EquipoServiceImp  implements EquipoService {
@@ -17,13 +17,16 @@ public class EquipoServiceImp  implements EquipoService {
     private final List<Equipo> listaEquipo= new ArrayList<>();
 
     @Override
-    public void agregarEquipo(Equipo equipo) {
+    public Equipo agregarEquipo(String nombreEquipo, LocalDate fechaHoy) {
         //comprobar si es el unico en la lista
-        if (listaEquipo.stream().anyMatch(equipo1 -> equipo1.getNombre().equalsIgnoreCase(equipo.getNombre()))) {
+        if (listaEquipo.stream().anyMatch(equipo -> equipo.getNombre().equalsIgnoreCase(nombreEquipo))) {
             System.out.println("Este equipo ya se encuentra en la lista");
+            return null;
         } else {
+            Equipo equipo= new Equipo(nombreEquipo,fechaHoy);
             listaEquipo.add(equipo);
             System.out.println("Equipo creado con exito");
+            return equipo;
         }
     }
 
@@ -51,9 +54,7 @@ public class EquipoServiceImp  implements EquipoService {
                     System.out.println("no hay entrenador");
                 }else {
                     System.out.println("entrandor:"+equipo.getEntrenador().getNombre());
-
                 }
-
                 if (cantidad != listaEquipo.size()) {
                     System.out.println("-----------------------");
                 }
@@ -90,8 +91,6 @@ public class EquipoServiceImp  implements EquipoService {
                 System.out.println("No tiene capitan");
             }
         }
-
-
     }
 
     @Override
@@ -106,6 +105,7 @@ public class EquipoServiceImp  implements EquipoService {
             for (Jugador jugador:equipo.getJugadores()) {
                 System.out.println("    Jugador nro:" + cantidad);
                 System.out.println("    nombre:"+ jugador.getNombre());
+                System.out.println("    apellido:"+jugador.getApellido());
                 System.out.println("    posicion:"+ jugador.getPosiciones());
                 System.out.println("    altura:"+ jugador.getAltura() +" mts");
                 System.out.println("    cantidad de goles:"+ jugador.getCantidadGoles());
@@ -119,9 +119,7 @@ public class EquipoServiceImp  implements EquipoService {
             System.out.println("no hay entrenador");
         }else {
             System.out.println("entrenador:"+equipo.getEntrenador().getNombre());
-
         }
-
     }
 
 
@@ -153,6 +151,31 @@ public class EquipoServiceImp  implements EquipoService {
         }
     }
 
+    @Override
+    public void eliminarEquipo(String nombre) {
+        Optional<Equipo> findEquipo= buscarEquipo(nombre);
+        if (findEquipo.isPresent()){
+            listaEquipo.remove(findEquipo.get());
+            System.out.println("equipo eliminado...");
+        } else {
+            System.out.println("equipo no existe");
+        }
+    }
+
+    @Override
+    public void ordenarPorNombreJugadores( String nombre) {
+        Optional<Equipo> optionalEquipo= buscarEquipo(nombre);
+        if (optionalEquipo.isPresent()) {
+            Equipo equipo = optionalEquipo.get();
+            equipo.getJugadores().sort(Comparator.comparing(Jugador::getNombre));
+            listarEquipoCompleto(equipo);
+
+
+        }else {
+            System.out.println("no existe el equipo");
+        }
+
+    }
 
 }
 

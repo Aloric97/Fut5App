@@ -16,8 +16,10 @@ public class EntrenadorServiceImp implements EntrenadorService {
 
     private List<Entrenador> listaEntrenador= new ArrayList<>();
     @Override
-    public void agregarEntrenador(Entrenador entrenador) {
+    public Entrenador agregarEntrenador(String nombreEntrenador,String apellidoEntrenador,Integer edadEntrenador) {
+        Entrenador entrenador= new Entrenador(nombreEntrenador,apellidoEntrenador,edadEntrenador);
         listaEntrenador.add(entrenador);
+        return  entrenador;
     }
 
     @Override
@@ -40,15 +42,13 @@ public class EntrenadorServiceImp implements EntrenadorService {
     }
 
     @Override
-    public boolean eliminarEntrenador(String nombre) {
+    public void eliminarEntrenador(String nombre) {
         Optional<Entrenador> findEntrenador= buscarEntrenador(nombre);
         if (findEntrenador.isPresent()){
             listaEntrenador.remove(findEntrenador.get());
             System.out.println("Entrenador eliminado...");
-            return true;
         } else {
             System.out.println("entrenador no existe");
-            return false;
         }
     }
 

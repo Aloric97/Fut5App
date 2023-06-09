@@ -1,6 +1,6 @@
 package com.jedi.TP1;
 
-import com.jedi.TP1.menu.MenuPrincipal;
+import com.jedi.TP1.Controllers.MenuPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +12,7 @@ public class Tp1Application implements CommandLineRunner {
 
 	//inyectamos nuestra dependencia a la clase main
 	@Autowired
-	private MenuPrincipal menuPrincipal;
+	MenuPrincipal menuPrincipal;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Tp1Application.class, args);

@@ -1,6 +1,9 @@
-package com.jedi.TP1.menu;
+package com.jedi.TP1.Controllers;
 
-import com.jedi.TP1.Controllers.EquipoController;
+
+import com.jedi.TP1.Services.Imp.EquipoServiceImp;
+
+import com.jedi.TP1.Validacion.Validaciones;
 import com.jedi.TP1.models.Equipo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -10,16 +13,12 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Scanner;
 
-
 @Component
-public class MenuEquipo implements MenuOptionsHandler{
-
-
+public class MenuEquipo implements MenuOptionsHandler {
     //dependencias de inyecciones
 
-
     @Autowired
-    EquipoController equipoController;
+    EquipoServiceImp equipoServiceImp;
 
     @Autowired
     MenuJugador menuJugador;
@@ -64,10 +63,6 @@ public class MenuEquipo implements MenuOptionsHandler{
     }
 
 
-
-
-
-
     @Override
     public void crear() {
         int opcion;
@@ -78,7 +73,7 @@ public class MenuEquipo implements MenuOptionsHandler{
         String nombreEquipo= Validaciones.obtenerStringNoNulo(scanner,"Nombre del equipo:");
         LocalDate fechaHoy= LocalDate.now();
 
-        Equipo nuevoEquipo=equipoController.agregarEquipo(nombreEquipo,fechaHoy);
+        Equipo nuevoEquipo=equipoServiceImp.agregarEquipo(nombreEquipo,fechaHoy);
 
         System.out.println("crear un jugador para que agregar a su equipo? 1-SI 2-NO");
         opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
@@ -107,8 +102,6 @@ public class MenuEquipo implements MenuOptionsHandler{
             opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
         }
 
-
-
         System.out.println("\nDesea crear otro equipo? 1-SI 2-NO ");
         opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
         switch (opcion) {
@@ -129,7 +122,10 @@ public class MenuEquipo implements MenuOptionsHandler{
 
     @Override
     public void eliminar() {
-
+        System.out.println("Ha elegido la opcion de eliminar un equipo");
+        System.out.println("por favor, ingrese su nombre para buscarlo y eliminarlo");
+        String nombreEquipo =Validaciones.obtenerStringNoNulo(scanner,"nombre del equipo:");
+        equipoServiceImp.eliminarEquipo(nombreEquipo);
     }
 
     @Override
@@ -137,7 +133,7 @@ public class MenuEquipo implements MenuOptionsHandler{
         System.out.println("Ha seleccionado la opcion listar equipos");
         System.out.println("los equipos creados son:");
         System.out.println("=========================");
-        equipoController.listarEquipo();
+        equipoServiceImp.listarEquipos();
         System.out.println("=========================");
         System.out.println("Presione Enter para continuar...");
         scanner.nextLine();
@@ -163,11 +159,11 @@ public class MenuEquipo implements MenuOptionsHandler{
 
         System.out.println("Ha elegido la opcion de buscar un equipo");
         System.out.println("Ingrese el nombre del equipo a buscar:");
+        scanner.nextLine();
         String nombreEquipo= Validaciones.obtenerStringNoNulo(scanner, "nombre del equipo:");
-        Optional<Equipo> optionalEquipo=equipoController.buscarNombreEquipo(nombreEquipo);
+        Optional<Equipo> optionalEquipo=equipoServiceImp.buscarEquipo(nombreEquipo);
         if (optionalEquipo.isPresent()){
             int opcion;
-
             do {
                 System.out.println("Que quiere saber sobre este equipo?");
                 System.out.println("1-nombre, nombre de entrenador y nombre del capitán del equipo");
@@ -193,7 +189,26 @@ public class MenuEquipo implements MenuOptionsHandler{
 
     private void listarEquipoCompleto(Equipo equipo){
         System.out.println("Ha seleccionado la opcion de listar el equipo con todos los jugadores");
-        equipoController.listarEquipoCompleto(equipo);
+        equipoServiceImp.listarEquipoCompleto(equipo);
+
+        int opcion;
+        do {
+            System.out.println("1-lista de los jugadores del equipo ordenados por su nombre.");
+            System.out.println("2-lista de los jugadores del equipo ordenados por número de camiseta.");
+            System.out.println("3-lista de los jugadores del equipo ordenados por su posición y número de camiseta.");
+            System.out.println("4-salir");
+            opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
+            switch (opcion){
+                case 1 -> equipoServiceImp.ordenarPorNombreJugadores(equipo.getNombre());
+                case 2 -> System.out.println("por imeplementar");
+                case 3 -> System.out.println("por imeplementar2");
+                case 4 -> showMenuEquipo();
+                default -> System.out.println("Ha elegido una opcion no valida");
+            }
+        } while (opcion !=4);
+
+        System.out.println("Presione Enter para continuar...");
+        scanner.nextLine();
         showMenuEquipo();
     }
 
@@ -209,7 +224,7 @@ public class MenuEquipo implements MenuOptionsHandler{
         System.out.println("Ha seleccionado la primer opcion");
         System.out.println("El equipo es: ");
         System.out.println("=========================");
-        equipoController.listarEquipoCapitan(equipo);
+        equipoServiceImp.listarEquipoCapitan(equipo);
         System.out.println("=========================");
         System.out.println("Presione Enter para continuar...");
         scanner.nextLine();
@@ -222,9 +237,5 @@ public class MenuEquipo implements MenuOptionsHandler{
         System.out.println("Ha seleccionado la opcion agregar entrenador");
         menuEntrenador.crear(equipo);
     }
-
-
-
-
 
 }

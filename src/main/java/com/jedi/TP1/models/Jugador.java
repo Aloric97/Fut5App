@@ -92,4 +92,5 @@ public class Jugador extends Persona {
                 ", equipo=" + equipo +
                 '}';
     }
+
 }

@@ -1,21 +1,14 @@
-package com.jedi.TP1.menu;
+package com.jedi.TP1.Controllers;
 
 
-
+import com.jedi.TP1.Validacion.Validaciones;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
 import java.util.Scanner;
-
 
 @Component
 public class MenuPrincipal{
-
-
-
-
-
 
     //inyecciones de dependecias
 
@@ -43,7 +36,7 @@ public class MenuPrincipal{
             System.out.println("3-Gestion de Entrenador");
             System.out.println("9-Salir");
             System.out.println("======================================");
-            opcion=Validaciones.validarOpcionEntero(scanner,"Opcion:");
+            opcion= Validaciones.validarOpcionEntero(scanner,"Opcion:");
             switch (opcion) {
                 case 1 -> menuEquipo.showMenuEquipo();
                 case 2 -> menuJugador.showMenuJugador();
